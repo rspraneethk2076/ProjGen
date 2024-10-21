@@ -1,0 +1,76 @@
+#src/app.py
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+app = Flask(__name__,template_folder='templates')
+
+counter = 0
+
+@app.route('/counter', methods=['GET'])
+def get_counter():
+    return jsonify(counter=counter)
+
+@app.route('/increment', methods=['POST'])
+def increment():
+    global counter
+    counter += 1
+    return jsonify(counter=counter)
+
+@app.route('/decrement', methods=['POST'])
+def decrement():
+    global counter
+    counter -= 1
+    return jsonify(counter=counter)
+
+@app.route('/reset', methods=['POST'])
+def reset():
+    global counter
+    counter = 0
+    return jsonify(counter=counter)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+#templates/counter.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Counter</title>
+</head>
+<body>
+    <h1>Counter: <span id="counter">0</span></h1>
+    <button onclick="increment()">Increment</button>
+    <button onclick="decrement()">Decrement</button>
+    <button onclick="reset()">Reset</button>
+    <script>
+        function increment() {
+            var counter = document.getElementById("counter").innerHTML;
+            counter = parseInt(counter) + 1;
+            document.getElementById("counter").innerHTML = counter;
+            fetch('/increment', {method: 'POST'})
+           .then(response => response.json())
+           .then(data => console.log(data));
+        }
+        function decrement() {
+            var counter = document.getElementById("counter").innerHTML;
+            counter = parseInt(counter) - 1;
+            document.getElementById("counter").innerHTML = counter;
+            fetch('/decrement', {method: 'POST'})
+           .then(response => response.json())
+           .then(data => console.log(data));
+        }
+        function reset() {
+            var counter = document.getElementById("counter").innerHTML;
+            counter = 0;
+            document.getElementById("counter").innerHTML = counter;
+            fetch('/reset', {method: 'POST'})
+           .then(response => response.json())
+           .then(data => console.log(data));
+        }
+    </script>
+</body>
+</html>
+
+#src/requirements.txt
+Flask==2.0.3
+
+
