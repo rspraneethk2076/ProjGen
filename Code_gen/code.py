@@ -1,7 +1,7 @@
 from langchain import HuggingFaceHub, LLMChain, PromptTemplate
 
 # Prompt the user for the problem statement
-problem_statement = '''You are tasked with creating a basic web application using Flask that functions as a simple counter application. The application should have buttons for incrementing and decrementing a counter value. The current value of the counter should be displayed prominently on the page and updated dynamically as the user interacts with the buttons. Additionally, a reset button should be included to reset the counter back to zero. The application must handle edge cases, such as preventing the counter from going below zero. Upon each change (increment, decrement, reset), the updated counter value should be reflected immediately without needing to refresh the page. The goal is to create an interactive and user-friendly counter application that provides real-time feedback to users as they adjust the counter value.'''
+problem_statement = '''You are tasked with creating a basic web application using Flask that functions as a simple addition application. The application should provide an interface for users to input two numbers and perform addition. The result of the addition should be displayed prominently on the page and updated dynamically as the user interacts with the input fields. Additionally, the application should include a clear button to reset the input fields back to their initial state. The application must handle edge cases, such as ensuring that the inputs are valid numbers before performing the addition. Upon each addition operation, the updated result should be reflected immediately without needing to refresh the page. The goal is to create an interactive and user-friendly addition application that provides real-time feedback to users as they input numbers and see the result.'''
 prompt_template = PromptTemplate.from_template(
     f'''
     Given the following problem statement, generate all the required files and their content for a very very mini simple Flask project Not so complexed and large codes:
@@ -16,21 +16,24 @@ prompt_template = PromptTemplate.from_template(
     1. Each file should start with #DirectoryName/FileName on its own line.
     2. Immediately follow this with the corresponding code without any extra text, comments, or lines.
     3. There should be absolutely no comments or additional text in the response—only file paths and their respective code.
-    4.There should very very mini simple Flask project Not so complexed and large codes.
+    4. There should very very mini simple Flask project Not so complexed and large codes.
     5. Only one set of codes is required strictly
 
     Include only files that are necessary for the solution to the problem statement, with directories in the paths (e.g., templates/login.html, static/style.css, src/app.py) where relevant. Also, make sure to include:
     - A requirements.txt file listing all dependencies.
     - A batch file (run_project.bat) that contains the necessary commands to run the Flask project.
-    
+    - Secret key can be your own random 24 chars string
+    - The main routing should be always only '/'
     
     Example 1 :
     The final Code:
     
     #src/app.py
 from flask import Flask, render_template, request, redirect, url_for
-app = Flask(__name__,template_folder='templates')
+app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
 
+
+app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -80,8 +83,8 @@ The final Code:
   
 #src/app.py
 from flask import Flask, render_template, jsonify
-app = Flask(__name__,template_folder='templates')
-
+app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
+app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
 counter = 0
 
 @app.route('/counter', methods=['GET'])

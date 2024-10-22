@@ -2,7 +2,7 @@ import os
 import shutil
 project_name="project1"
 def format_raw_file(filepath,project_name):
-    root_dir="D:/Downloads/genMaya/projects"+project_name
+    root_dir=os.path.join("D:/Downloads/genMaya/projects",project_name)
     with open(filepath,'r') as f:
         content =f.read()
     
@@ -22,4 +22,4 @@ def format_raw_file(filepath,project_name):
 
 
 format_raw_file("D:/Downloads/genMaya/files/flask_app.txt",project_name)
-shutil.copy("D:/Downloads/genMaya/files/run_project.bat",os.path.join("run_project.bat","D:/Downloads/genMaya/projects"+project_name))
+shutil.copy("D:/Downloads/genMaya/files/run_project.bat",os.path.join("run_project.bat","D:/Downloads/genMaya/projects",project_name))
