@@ -1,6 +1,6 @@
 from langchain import HuggingFaceHub, LLMChain, PromptTemplate
-
-# Prompt the user for the problem statement
+import subprocess
+subprocess.run(["python", "login_hf.py"])
 problem_statement = '''You are tasked with creating a basic web application using Flask that functions as a simple addition application. The application should provide an interface for users to input two numbers and perform addition. The result of the addition should be displayed prominently on the page and updated dynamically as the user interacts with the input fields. Additionally, the application should include a clear button to reset the input fields back to their initial state. The application must handle edge cases, such as ensuring that the inputs are valid numbers before performing the addition. Upon each addition operation, the updated result should be reflected immediately without needing to refresh the page. The goal is to create an interactive and user-friendly addition application that provides real-time feedback to users as they input numbers and see the result.'''
 prompt_template = PromptTemplate.from_template(
     f'''
@@ -19,11 +19,12 @@ prompt_template = PromptTemplate.from_template(
     4. There should very very mini simple Flask project Not so complexed and large codes.
     5. Only one set of codes is required strictly
 
-    Include only files that are necessary for the solution to the problem statement, with directories in the paths (e.g., templates/login.html, static/style.css, src/app.py) where relevant. Also, make sure to include:
+    Include only files that are necessary for the solution to the problem statement, with directories in the paths (e.g., templates/login.html, src/app.py) where relevant. Also, make sure to include:
     - A requirements.txt file listing all dependencies.
     - A batch file (run_project.bat) that contains the necessary commands to run the Flask project.
     - Secret key can be your own random 24 chars string
     - The main routing should be always only '/'
+    - Remember in src/app.py main method is must and sure.
     
     Example 1 :
     The final Code:
@@ -43,7 +44,7 @@ def login():
         return redirect(url_for('home'))
     return render_template('login.html')
     
-if name == 'main':
+if __name__ == '__main__':
     app.run(debug=True)
 
 #templates/login.html
@@ -102,7 +103,8 @@ def decrement():
     global counter
     counter -= 1
     return jsonify(counter=counter)
-if name == 'main':
+
+if __name__ == '__main__':
     app.run(debug=True)
     
 #templates/counter.html
@@ -141,7 +143,7 @@ llm = HuggingFaceHub(
     repo_id="meta-llama/Llama-3.2-3B-Instruct",
     model_kwargs={
         "device": 0,
-        "max_new_tokens": 3000
+        "max_new_tokens": 2000
     }
 )
 
