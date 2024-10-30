@@ -1,7 +1,9 @@
 from langchain import HuggingFaceHub, LLMChain, PromptTemplate
 import subprocess
 subprocess.run(["python", "login_hf.py"])
-problem_statement = '''You are tasked with creating a basic web application using Flask that functions as a simple addition application. The application should provide an interface for users to input two numbers and perform addition. The result of the addition should be displayed prominently on the page and updated dynamically as the user interacts with the input fields. Additionally, the application should include a clear button to reset the input fields back to their initial state. The application must handle edge cases, such as ensuring that the inputs are valid numbers before performing the addition. Upon each addition operation, the updated result should be reflected immediately without needing to refresh the page. The goal is to create an interactive and user-friendly addition application that provides real-time feedback to users as they input numbers and see the result.'''
+problem_statement = '''
+You are tasked with creating a basic web application using Flask that functions as a scientific calculator. The application should have an input field where users can enter mathematical expressions, and buttons for various operations such as addition, subtraction, multiplication, division, exponentiation, trigonometric functions (sine, cosine, tangent), and logarithmic calculations. The application should evaluate the expression entered by the user and display the result dynamically on the same page without requiring a page refresh. Additionally, the calculator should handle edge cases such as division by zero and invalid mathematical expressions by displaying appropriate error messages. The goal is to create a user-friendly scientific calculator that performs real-time calculations and provides instant feedback as users input expressions..
+'''
 prompt_template = PromptTemplate.from_template(
     f'''
     Given the following problem statement, generate all the required files and their content for a very very mini simple Flask project Not so complexed and large codes:
@@ -18,13 +20,18 @@ prompt_template = PromptTemplate.from_template(
     3. There should be absolutely no comments or additional text in the response—only file paths and their respective code.
     4. There should very very mini simple Flask project Not so complexed and large codes.
     5. Only one set of codes is required strictly
+  
 
-    Include only files that are necessary for the solution to the problem statement, with directories in the paths (e.g., templates/login.html, src/app.py) where relevant. Also, make sure to include:
+    Include only files that are necessary for the solution to the problem statement, with directories in the paths (e.g., templates/login.html, src/app.py, src/requirements.txt etc...) where relevant. Also, make sure to include:
     - A requirements.txt file listing all dependencies.
     - A batch file (run_project.bat) that contains the necessary commands to run the Flask project.
     - Secret key can be your own random 24 chars string
     - The main routing should be always only '/'
     - Remember in src/app.py main method is must and sure.
+    - Make sur html is as small as possible . it is high preiority
+    - Just you need to take structure from the example not the logic. please remember that
+    - Dont keep templates inside src
+
     
     Example 1 :
     The final Code:

@@ -1,76 +1,63 @@
 #src/app.py
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-app = Flask(__name__,template_folder='templates')
+from flask import Flask, render_template, request, jsonify
+import math
+import operator
+import re
 
-counter = 0
+app = Flask(__name__)
 
-@app.route('/counter', methods=['GET'])
-def get_counter():
-    return jsonify(counter=counter)
+@app.route('/', methods=['GET', 'POST'])
+def main():
+    if request.method == 'POST':
+        try:
+            user_input = request.form['user_input']
+            if user_input == '':
+                return jsonify({'error': 'Please enter a mathematical expression.'})
+            elif user_input =='sin(x)' or user_input == 'cos(x)' or user_input == 'tan(x)' or user_input == 'log(x)':
+                return jsonify({'error': 'Invalid input. Please enter a mathematical expression.'})
+            elif user_input =='sqrt(x)' or user_input == 'log(x)':
+                return jsonify({'error': 'Invalid input. Please enter a mathematical expression.'})
+            else:
+                try:
+                    result = eval(user_input)
+                    return jsonify({'result': result})
+                except ZeroDivisionError:
+                    return jsonify({'error': 'Division by zero is not allowed.'})
+                except Exception as e:
+                    return jsonify({'error': str(e)})
+        except Exception as e:
+            return jsonify({'error': str(e)})
 
-@app.route('/increment', methods=['POST'])
-def increment():
-    global counter
-    counter += 1
-    return jsonify(counter=counter)
-
-@app.route('/decrement', methods=['POST'])
-def decrement():
-    global counter
-    counter -= 1
-    return jsonify(counter=counter)
-
-@app.route('/reset', methods=['POST'])
-def reset():
-    global counter
-    counter = 0
-    return jsonify(counter=counter)
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
+```
 
-#templates/counter.html
+
+#templates/index.html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Counter</title>
+    <title>Scientific Calculator</title>
 </head>
 <body>
-    <h1>Counter: <span id="counter">0</span></h1>
-    <button onclick="increment()">Increment</button>
-    <button onclick="decrement()">Decrement</button>
-    <button onclick="reset()">Reset</button>
+    <form action="" method="post">
+        <input type="text" name="user_input" placeholder="Enter a mathematical expression">
+        <input type="submit" value="Calculate">
+    </form>
+    <div id="result"></div>
     <script>
-        function increment() {
-            var counter = document.getElementById("counter").innerHTML;
-            counter = parseInt(counter) + 1;
-            document.getElementById("counter").innerHTML = counter;
-            fetch('/increment', {method: 'POST'})
-           .then(response => response.json())
-           .then(data => console.log(data));
-        }
-        function decrement() {
-            var counter = document.getElementById("counter").innerHTML;
-            counter = parseInt(counter) - 1;
-            document.getElementById("counter").innerHTML = counter;
-            fetch('/decrement', {method: 'POST'})
-           .then(response => response.json())
-           .then(data => console.log(data));
-        }
-        function reset() {
-            var counter = document.getElementById("counter").innerHTML;
-            counter = 0;
-            document.getElementById("counter").innerHTML = counter;
-            fetch('/reset', {method: 'POST'})
-           .then(response => response.json())
-           .then(data => console.log(data));
+        function updateResult(result) {
+            document.getElementById("result").innerHTML = result.result;
         }
     </script>
 </body>
 </html>
 
 #src/requirements.txt
-Flask==2.0.3
+flask==2.0.1
+requests==2.25.1
+```
 
 
