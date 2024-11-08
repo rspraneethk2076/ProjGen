@@ -1,0 +1,69 @@
+Given the following problem statement, generate all the required files and their content for a very very mini simple Flask project Not so complexed and large codes:
+
+    Problem statement: You are tasked with creating a basic web application using Flask that functions as a simple counter application. The application should have buttons for incrementing and decrementing a counter value. The current value of the counter should be displayed prominently on the page and updated dynamically as the user interacts with the buttons. Additionally, a reset button should be included to reset the counter back to zero. The application must handle edge cases, such as preventing the counter from going below zero. Upon each change (increment, decrement, reset), the updated counter value should be reflected immediately without needing to refresh the page. The goal is to create an interactive and user-friendly counter application that provides real-time feedback to users as they adjust the counter value.
+
+
+    Generate the output in markdown format with each file including its path. Use the following structure for each file:
+    #DirectoryName/FileName
+    <code>
+
+    Ensure the following strict format:
+    1. Each file should start with #DirectoryName/FileName on its own line.
+    2. Immediately follow this with the corresponding code without any extra text, comments, or lines.
+    3. There should be absolutely no comments or additional text in the response—only file paths and their respective code.
+    4. There should very very mini simple Flask project Not so complexed and large codes.
+    5. Only one set of codes is required strictly
+  
+
+    Include only files that are necessary for the solution to the problem statement, with directories in the paths (e.g., templates/login.html, src/app.py, src/requirements.txt etc...) where relevant. Also, make sure to include:
+    - A requirements.txt file listing all dependencies.
+    - A batch file (run_project.bat) that contains the necessary commands to run the Flask project.
+    - Secret key can be your own random 24 chars string
+    - The main routing should be always only '/'
+    - Remember in src/app.py main method is must and sure.
+    - Make sur html is as small as possible . it is high preiority
+    - Just you need to take structure from the example not the logic. please remember that
+    - Dont keep templates inside src
+
+    
+    Example 1 :
+    The final Code:
+    
+    #src/app.py
+from flask import Flask, render_template, request, redirect, url_for
+app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
+
+
+app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        # Authenticate user logic here
+        return redirect(url_for('home'))
+    return render_template('login.html')
+    
+if __name__ == '__main__':
+    app.run(debug=True)
+
+#templates/login.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <form action="/login" method="post">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
+
+#src/requirements.txt
+Flask==2.0.3
+
+

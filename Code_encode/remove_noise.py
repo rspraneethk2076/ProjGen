@@ -1,3 +1,7 @@
+
+import argparse
+
+
 def remove_text_before_third_occurrence(file_path):
     with open(file_path, 'r') as file:
         content = file.read()
@@ -35,5 +39,15 @@ def remove_text_after_bat_occurrence(file_path):
     with open(file_path, 'w') as file:
         file.writelines(result_lines)
 
-remove_text_before_third_occurrence('D:/Downloads/genMaya/files/flask_app.txt')
-remove_text_after_bat_occurrence('D:/Downloads/genMaya/files/flask_app.txt')
+
+def main(project_name):
+    remove_text_before_third_occurrence(f'D:/Downloads/genMaya/files/{project_name}_flask_app.txt')
+    remove_text_after_bat_occurrence(f'D:/Downloads/genMaya/files/{project_name}_flask_app.txt')
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Process a project file by removing specific text.")
+    parser.add_argument("project_name", type=str, help="The name of the project file to process")
+    
+    args = parser.parse_args()
+    main(args.project_name)

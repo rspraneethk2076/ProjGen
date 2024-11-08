@@ -1,8 +1,8 @@
 import os
 import shutil
 import re
-project_name="project1"
-
+import argparse
+import zipfile
 
 def split_text(text):
     pattern = r'(?<=\n)(?=#.*\/)'
@@ -103,8 +103,32 @@ def renamefoldernames(base_dir ):
                     os.rename(folder_path, new_folder_path)
 
 
-format_raw_file("D:/Downloads/genMaya/files/flask_app.txt",project_name)
-shutil.copy("D:/Downloads/genMaya/files/run_project.bat",os.path.join("run_project.bat","D:/Downloads/genMaya/projects",project_name))
-merge_folders("D:/Downloads/genMaya/projects")
-renamefoldernames("D:/Downloads/genMaya/projects")
-clean_requirements("D:/Downloads/genMaya/projects/project1/src/requirements.txt")
+def zip_folder(source_folder, destination_folder, zip_name):
+
+    zip_path = os.path.join(destination_folder, zip_name)
+    
+
+    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        for root, _, files in os.walk(source_folder):
+            for file in files:
+                file_path = os.path.join(root, file)
+
+                zipf.write(file_path, os.path.relpath(file_path, source_folder))
+    print(f"Folder '{source_folder}' has been zipped successfully to '{zip_path}'.")
+
+def main(project_name):
+    format_raw_file(f"D:/Downloads/genMaya/files/{project_name}_flask_app.txt",project_name)
+    shutil.copy("D:/Downloads/genMaya/files/run_project.bat",os.path.join("run_project.bat","D:/Downloads/genMaya/projects",project_name))
+    merge_folders("D:/Downloads/genMaya/projects")
+    renamefoldernames("D:/Downloads/genMaya/projects")
+    clean_requirements(f"D:/Downloads/genMaya/projects/{project_name}/src/requirements.txt")
+    zip_folder(f"D:/Downloads/genMaya/projects/{project_name}","D:/Downloads/genMaya/zip_files",f"{project_name}.zip")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Process a project file by removing specific text.")
+    parser.add_argument("project_name", type=str, help="The name of the project file to process")
+    
+    args = parser.parse_args()
+    main(args.project_name)
+

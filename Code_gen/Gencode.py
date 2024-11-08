@@ -1,11 +1,21 @@
 from langchain import HuggingFaceHub, LLMChain, PromptTemplate
 import subprocess
+from flask import Flask, request, jsonify, send_file
+import os
+import time
+import threading
+
+
+
+
 subprocess.run(["python", "login_hf.py"])
-problem_statement = '''
-You are tasked with creating a basic web application using Flask that functions as a scientific calculator. The application should have an input field where users can enter mathematical expressions, and buttons for various operations such as addition, subtraction, multiplication, division, exponentiation, trigonometric functions (sine, cosine, tangent), and logarithmic calculations. The application should evaluate the expression entered by the user and display the result dynamically on the same page without requiring a page refresh. Additionally, the calculator should handle edge cases such as division by zero and invalid mathematical expressions by displaying appropriate error messages. The goal is to create a user-friendly scientific calculator that performs real-time calculations and provides instant feedback as users input expressions..
-'''
+
+app = Flask(__name__)
+
+
+
 prompt_template = PromptTemplate.from_template(
-    f'''
+    '''
     Given the following problem statement, generate all the required files and their content for a very very mini simple Flask project Not so complexed and large codes:
 
     Problem statement: {problem_statement}
@@ -150,20 +160,40 @@ llm = HuggingFaceHub(
     repo_id="meta-llama/Llama-3.2-3B-Instruct",
     model_kwargs={
         "device": 0,
-        "max_new_tokens": 2000
+        "max_new_tokens": 1000
     }
 )
 
 chain = LLMChain(llm=llm, prompt=prompt_template)
 
 
-response = chain.invoke({})
+@app.route('/generate_code', methods=['POST'])
+def generate_code():
+    # Retrieve the problem statement from the request
+    data = request.get_json()
+    problem_statement = data.get('problem_statement', '')
+    project_name=data.get('project_name','')
+
+    # Use the problem statement to invoke the model
+    response = chain.invoke({'problem_statement': problem_statement})
+    formatted_code = response['text'].strip()
+
+    file_path = os.path.join("D:/Downloads/genMaya/files",f'{project_name}_flask_app.txt')
+    with open(file_path, 'w') as file:
+        file.write(formatted_code)
+
+    time.sleep(5)
+    # bat_file_path = os.path.join("D:/Downloads/genMaya", "main.bat")  # Update with your actual path
+    # subprocess.run([bat_file_path], shell=True)
 
 
-formatted_code = response['text'].strip()
+    subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/remove_noise.py",project_name], shell=True)
+    subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/format_folders.py",project_name], shell=True)
+
+    return send_file(file_path, as_attachment=True)
 
 
-with open('D:/Downloads/genMaya/files/flask_app.txt', 'w') as file:
-    file.write(formatted_code)
 
-print("Code has been saved as flask_app.txt")
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
