@@ -167,6 +167,10 @@ llm = HuggingFaceHub(
 chain = LLMChain(llm=llm, prompt=prompt_template)
 
 
+@app.route('/')
+def home():
+    return "Server is running", 200
+
 @app.route('/generate_code', methods=['POST'])
 def generate_code():
     # Retrieve the problem statement from the request
