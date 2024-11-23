@@ -4,14 +4,16 @@ from flask import Flask, request, jsonify, send_file
 import os
 import time
 import threading
-
+import streamlit as st
+import requests
+import re
 
 
 
 subprocess.run(["python", "login_hf.py"])
 
 app = Flask(__name__)
-
+existing_code=""
 
 
 prompt_template = PromptTemplate.from_template(
@@ -196,6 +198,150 @@ def generate_code():
 
     return send_file(file_path, as_attachment=True)
 
+
+################################################################
+
+def correct_error():
+
+
+    prompt_template = PromptTemplate.from_template(
+        '''
+    Given a problem statement, existing code, and an error message below, correct and simplify the code as needed.
+
+    Problem statement: {problem_statement}
+    Existing code: {existing_code}
+    Error message: {error_details}
+
+    Please output only the necessary corrected code in the following format:
+    - For each file, start with the path in `#DirectoryName/FileName` format.
+    - Directly follow with the code without any extra text, comments, or lines.
+    - Only include essential files: `src/app.py`, `templates/index.html`, `src/requirements.txt`, and `src/run_project.bat`.
+    - Minimal HTML and Flask code is preferred.
+
+    Example format:
+
+    #src/app.py
+    <code>
+
+    #templates/index.html
+    <code>
+
+    #src/requirements.txt
+    <code>
+
+    #src/run_project.bat
+    <code>
+
+    Ensure the `src/app.py` file uses a main route `'/'`, has a `main` method, and handles user inputs as per the problem statement. Avoid complex code, keep the HTML minimal, and make sure the `requirements.txt` file includes necessary dependencies.
+    '''
+    )
+
+    # Define LLM and chain
+    llm = HuggingFaceHub(
+        huggingfacehub_api_token="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",
+        repo_id="meta-llama/Llama-3.2-3B-Instruct",
+        model_kwargs={
+            "device": 0,
+            "max_new_tokens": 1000
+        }
+    )
+
+    chain = LLMChain(llm=llm, prompt=prompt_template)
+    return chain
+
+@app.route('/correct_code',methods=['POST'])
+def correct_code():
+
+
+
+    data = request.get_json()
+    error_message=data.get('project_name','')
+    problem_statement, project_name = st.session_state.project_description, st.session_state.project_title
+    with open(f"D:/Downloads/genMaya/files/{project_name}_flask_app.txt", 'r') as file:
+        existing_code = file.read()
+
+    chain= correct_error(error_message,existing_code,problem_statement)
+
+    response = chain.invoke({'problem_statement': problem_statement,'existing_code':existing_code,'error_message':error_message })
+
+    formatted_code = response['text'].strip()
+
+    file_path = os.path.join("D:/Downloads/genMaya/files",f'{project_name}_flask_app.txt')
+    with open(file_path, 'w') as file:
+        file.write(formatted_code)
+
+    time.sleep(5)
+    # bat_file_path = os.path.join("D:/Downloads/genMaya", "main.bat")  # Update with your actual path
+    # subprocess.run([bat_file_path], shell=True)
+
+
+    subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/remove_noise.py",project_name], shell=True)
+    subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/format_folders.py",project_name], shell=True)
+
+    return send_file(file_path, as_attachment=True)
+
+
+def get_routes_from_app(file_path):
+    route_pattern = re.compile(r"@app\.route\(['\"](.*?)['\"].*?\)")
+    routes = []
+    with open(file_path, 'r') as file:
+        for line in file:
+            match = route_pattern.search(line)
+            if match:
+                routes.append(f"http://127.0.0.1:8080{match.group(1)}")
+    print("Detected routes:", routes)
+    return routes
+
+@app.route('/code_val',methods=['POST'])
+def code_validator():
+    app_file_path = "D:/Downloads/genMaya/projects/krishna/src/app.py"
+    batch_file_path = "D:/Downloads/genMaya/projects/krishna/run_project.bat"
+    batch_args = ["krishna"]
+
+    
+
+
+    api_endpoints = get_routes_from_app(app_file_path)
+
+
+    print("------------------------------------------------------------------------------------------------------------------------------------------------------------")
+    # Run setup batch script and wait for it to complete
+    subprocess.Popen([batch_file_path] + batch_args, shell=True)
+    print("Environment setup complete")
+
+    # Start the Flask app in a separate process
+    
+    # out,err=app_process.communicate()
+    time.sleep(6)
+
+    try:
+        for endpoint in api_endpoints:
+            try:
+                response = requests.get(endpoint)
+                if response.status_code != 200:
+                    print(f"Error at {endpoint}: Status {response.status_code}")
+                    
+                    # # Terminate the Flask app process and re-run the setup
+                    # subprocess.run(["D:/Downloads/genMaya/start_proj.bat"], shell=True, check=True)
+                    # time.sleep(5)
+
+                    # Run error handler with the error response
+                    error_details = response.text[:200]  # Extract up to 200 characters of error
+                    # subprocess.run(["python", "D:/Downloads/genMaya/Code_Corrector/Code.py", error_details], shell=True, check=True)
+                    payload = {
+                "error_message": error_details
+                    }
+                    response=requests.post("http://127.0.0.1:5000/correct_code",json=payload)
+                    time.sleep(5)
+
+                else:
+                    print(f"{endpoint} responded successfully with status {response.status_code}")
+            except requests.exceptions.RequestException as e:
+                print(f"Request exception at {endpoint}: {e}")
+                break  
+    finally:
+        
+        print("Flask app process terminated")
 
 
 

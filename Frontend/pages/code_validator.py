@@ -21,10 +21,10 @@ def check_server_status(url):
 
 def start_server(st):
 
-    subprocess.call(["flask", "--app", "D:/Downloads/genMaya/Code_gen/Gencode.py", "run"], shell=True)
+    subprocess.call(["flask", "--app", "D:/Downloads/genMaya/Code_gen/Gencode.py", "run"], shell=False)
 
 def stop_server():
-    subprocess.call("taskkill /f /im flask.exe", shell=True)
+    subprocess.call("taskkill /f /im flask.exe", shell=False)
     sleep(2)
 
 if st.button("Start Server"):
