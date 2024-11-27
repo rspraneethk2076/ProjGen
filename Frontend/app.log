@@ -39,4 +39,4 @@ Traceback (most recent call last):
   File "C:\Users\Sai Praneeth\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 99, in _get_source_fast
     raise TemplateNotFound(template)
 jinja2.exceptions.TemplateNotFound: add.html
-INFO:werkzeug:127.0.0.1 - - [27/Nov/2024 16:52:02] "[35m[1mGET / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [27/Nov/2024 17:25:43] "[35m[1mGET / HTTP/1.1[0m" 500 -
