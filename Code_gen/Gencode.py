@@ -256,20 +256,7 @@ def correct_error():
     #src/app.py
 from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
-import logging
-import traceback
-logging.basicConfig(
-    filename='app.log',
-    level=logging.ERROR,
-    filemode='w',  
-)
 
-@app.errorhandler(Exception)
-def handle_error(e):
-
-    app.logger.error(f"Exception occurred: \n{traceback.format_exc()}")
-
-    return "Internal Server Error", 500
 
 
 app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
@@ -325,21 +312,6 @@ from flask import Flask, render_template, jsonify
 app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
 app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
 counter = 0
-
-import logging
-import traceback
-logging.basicConfig(
-    filename='app.log',
-    level=logging.ERROR,
-    filemode='w',  
-)
-
-@app.errorhandler(Exception)
-def handle_error(e):
-
-    app.logger.error(f"Exception occurred: \n{traceback.format_exc()}")
-
-    return "Internal Server Error", 500
 
 @app.route('/counter', methods=['GET'])
 def get_counter():
@@ -449,11 +421,11 @@ def get_last_log_lines(log_file, num_lines=4):
         return [f"Error reading log file: {e}\n"]
 
 # Function to test routes and capture logs
-def test_routes(server_url, routes, log_file="D:/Downloads/genMaya/projects/hema/app.log"):
+def test_routes(routes, log_file="D:/Downloads/genMaya/Frontend/app.log"):
     logs_per_route = {}
 
     for route in routes:
-        url = f"{server_url}{route}"
+        url = f"{route}"
         print(f"Testing route: {url}")
 
         try:
@@ -530,34 +502,32 @@ def code_validator():
     # # out,err=app_process.communicate()
     # time.sleep(6)
 
+
     try:
-        for endpoint in api_endpoints:
-            try:
-                response = requests.get(endpoint)
-                if response.status_code != 200:
-                    print(f"Error at {endpoint}: Status {response.status_code}")
-                    
-                    # # Terminate the Flask app process and re-run the setup
-                    # subprocess.run(["D:/Downloads/genMaya/start_proj.bat"], shell=True, check=True)
-                    # time.sleep(5)
-
-                    # Run error handler with the error response
-                    error_details = response.text[:200]  # Extract up to 200 characters of error
-                    # subprocess.run(["python", "D:/Downloads/genMaya/Code_Corrector/Code.py", error_details], shell=True, check=True)
-                    payload = {
-                "error_message": error_details
-                    }
-                    response=requests.post("http://127.0.0.1:5000/correct_code",json=payload)
-                    time.sleep(5)
-
-                else:
-                    print(f"{endpoint} responded successfully with status {response.status_code}")
-            except requests.exceptions.RequestException as e:
-                print(f"Request exception at {endpoint}: {e}")
-                break  
-    finally:
         
-        print("Flask app process terminated")
+        # response = requests.get(endpoint)
+        # if response.status_code != 200:
+        #     print(f"Error at {endpoint}: Status {response.status_code}")
+            
+            # # Terminate the Flask app process and re-run the setup
+            # subprocess.run(["D:/Downloads/genMaya/start_proj.bat"], shell=True, check=True)
+            # time.sleep(5)
+
+            # Run error handler with the error response
+   # Extract up to 200 characters of error
+            error_details=test_routes(api_endpoints)
+            # subprocess.run(["python", "D:/Downloads/genMaya/Code_Corrector/Code.py", error_details], shell=True, check=True)
+            payload = {
+        "error_message": error_details
+            }
+            response=requests.post("http://127.0.0.1:5000/correct_code",json=payload)
+            time.sleep(5)
+
+
+    except requests.exceptions.RequestException as e:
+        print(f"{e}")
+                 
+
     return "Flask app process terminated"
 
 
