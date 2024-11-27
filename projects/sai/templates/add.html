@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Addition</title>
+</head>
+<body>
+    <h1>Addition</h1>
+    <form action="/add" method="post">
+        <input type="number" name="num1" placeholder="Number 1" required>
+        <input type="number" name="num2" placeholder="Number 2" required>
+        <button type="submit">Add</button>
+        <p>Result: {{ result }}</p>
+        <p>Counter: {{ counter }}</p>
+        <button onclick="clearForm()">Clear</button>
+    </form>
+    <script>
+        function clearForm() {
+            document.getElementById('num1').value = '';
+            document.getElementById('num2').value = '';
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('counter').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
