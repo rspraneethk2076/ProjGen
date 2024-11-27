@@ -5,22 +5,14 @@
     <title>Addition</title>
 </head>
 <body>
-    <h1>Addition</h1>
-    <form action="/add" method="post">
+    <form action="" method="post">
         <input type="number" name="num1" placeholder="Number 1" required>
         <input type="number" name="num2" placeholder="Number 2" required>
         <button type="submit">Add</button>
-        <p>Result: {{ result }}</p>
-        <p>Counter: {{ counter }}</p>
-        <button onclick="clearForm()">Clear</button>
+        <p id="result"></p>
     </form>
     <script>
-        function clearForm() {
-            document.getElementById('num1').value = '';
-            document.getElementById('num2').value = '';
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('counter').innerHTML = '';
-        }
+        document.getElementById('result').innerHTML = document.getElementById('num1').value + document.getElementById('num2').value;
     </script>
 </body>
 </html>

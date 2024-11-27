@@ -1,243 +1,44 @@
-Given a problem statement, existing code, and an error message below, correct and simplify the code as needed.
-
-    Problem statement: You are tasked with creating a basic web application using Flask that functions as a simple counter application. The application should have buttons for incrementing and decrementing a counter value. The current value of the counter should be displayed prominently on the page and updated dynamically as the user interacts with the buttons. Additionally, a reset button should be included to reset th
-    Existing code: Given a problem statement, existing code, and an error message below, correct and simplify the code as needed.
-
-    Problem statement: You are tasked with creating a basic web application using Flask that functions as a simple counter application. The application should have buttons for incrementing and decrementing a counter value. The current value of the counter should be displayed prominently on the page and updated dynamically as the user interacts with the buttons. Additionally, a reset button should be included to reset th
-    Existing code: #src/app.py
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+#src/app.py
+from flask import Flask, render_template, jsonify
 app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
 app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
 counter = 0
 
-@app.route('/', methods=['GET', 'POST'])
-def add():
+@app.route('/counter', methods=['GET'])
+def get_counter():
+    return jsonify(counter=counter)
+
+@app.route('/increment', methods=['POST'])
+def increment():
     global counter
-    if request.method == 'POST':
-        try:
-            num1 = float(request.form['num1'])
-            num2 = float(request.form['num2'])
-            result = num1 + num2
-            counter += 1
-            return render_template('add.html', result=result, counter=counter)
-        except ValueError:
-            return render_template('add.html', error='Invalid input')
-    return render_template('add.html', counter=counter)
+    counter += 1
+    return jsonify(counter=counter)
+
+@app.route('/decrement', methods=['POST'])
+def decrement():
+    global counter
+    counter -= 1
+    return jsonify(counter=counter)
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-#templates/add.html
+    
+#templates/counter.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Addition</title>
+    <title>Counter</title>
 </head>
 <body>
-    <h1>Addition</h1>
-    <form action="/add" method="post">
-        <input type="number" name="num1" placeholder="Number 1" required>
-        <input type="number" name="num2" placeholder="Number 2" required>
-        <button type="submit">Add</button>
-        <p>Result: {{ result }}</p>
-        <p>Counter: {{ counter }}</p>
-        <button onclick="clearForm()">Clear</button>
-    </form>
-    <script>
-        function clearForm() {
-            document.getElementById('num1').value = '';
-            document.getElementById('num2').value = '';
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('counter').innerHTML = '';
-        }
-    </script>
+    <h1>Counter: <span id="counter">0</span></h1>
+    <button onclick="increment()">Increment</button>
+    <button onclick="decrement()">Decrement</button>
 </body>
 </html>
+
 
 #src/requirements.txt
 Flask==2.0.3
 
 
-    Error message: <!doctype html>
-<html lang=en>
-<title>500 Internal Server Error</title>
-<h1>Internal Server Error</h1>
-<p>The server encountered an internal error and was unable to complete your request. Either the s
-
-    Please output only the necessary corrected code in the following format:
-    - For each file, start with the path in `#DirectoryName/FileName` format.
-    - Directly follow with the code without any extra text, comments, or lines.
-    - Only include essential files: `src/app.py`, `templates/index.html`, `src/requirements.txt`, and `src/run_project.bat`.
-    - Minimal HTML and Flask code is preferred.
-
-    Example format:
-
-    #src/app.py
-    <code>
-
-    #templates/index.html
-    <code>
-
-    #src/requirements.txt
-    <code>
-    no
-
-
-    Error message: <!doctype html>
-<html lang=en>
-<title>500 Internal Server Error</title>
-<h1>Internal Server Error</h1>
-<p>The server encountered an internal error and was unable to complete your request. Either the s
-
-    Please output only the necessary corrected code in the following format:
-    - For each file, start with the path in `#DirectoryName/FileName` format.
-    - Directly follow with the code without any extra text, comments, or lines.
-    - Only include essential files: `src/app.py`, `templates/index.html`, `src/requirements.txt`, and `src/run_project.bat`.
-    - Minimal HTML and Flask code is preferred.
-
-    Example format:
-
-    #src/app.py
-    <code>
-
-    #templates/index.html
-    <code>
-
-    #src/requirements.txt
-    <code>
-
-    #src/run_project.bat
-    <code>
-
-    Ensure the `src/app.py` file uses a main route `'/'`, has a `main` method, and handles user inputs as per the problem statement. Avoid complex code, keep the HTML minimal, and make sure the `requirements.txt` file includes necessary dependencies.
-     ```python
-from flask import Flask, render_template, request
-app = Flask(__name__)
-app.config['SECRET_KEY'] ='secret_key'
-counter = 0
-
-@app.route('/', methods=['GET', 'POST'])
-def main():
-    global counter
-    if request.method == 'POST':
-        try:
-            num1 = int(request.form['num1'])
-            num2 = int(request.form['num2'])
-            result = num1 + num2
-            counter += 1
-            return render_template('index.html', result=result, counter=counter)
-        except ValueError:
-            return render_template('index.html', error='Invalid input')
-    return render_template('index.html', counter=counter)
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-    #templates/index.html
-    <code>
-    <h1>Counter App</h1>
-    <form action="/" method="post">
-        <input type="number" name="num1" placeholder="Number 1" required>
-        <input type="number" name="num2" placeholder="Number 2" required>
-        <button type="submit">Add</button>
-        <button type="submit">Subtract</button>
-        <button type="submit">Reset</button>
-        <p>Counter: {{ counter }}</p>
-    </form>
-    <script>
-        function updateCounter() {
-            var num1 = document.getElementById('num1').value;
-            var num2 = document.getElementById('num2').value;
-            if (num1!= '' && num2!= '') {
-                var result = parseInt(num1) + parseInt(num2);
-                document.getElementById('result').innerHTML = result;
-            }
-        }
-    </script>
-    <script>
-        function resetCounter() {
-            document.getElementById('num1').value = '';
-            document.getElementById('num2').value = '';
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('counter').innerHTML = '';
-        }
-    </script>
-    <script>
-        function updateCounter() {
-            var num1 = document.getElementById('num1').value;
-            var num2 = document.getElementById('num2').value;
-            if (num1!= '' && num2!= '') {
-                var result = parseInt(num1) + parseInt(num2);
-                document.getElementById('result').innerHTML = result;
-            }
-        }
-    </script>
-    <script>
-        function resetCounter() {
-            document.getElementById('num1').value = '';
-            document.getElementById('num2').value = '';
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('counter').innerHTML = '';
-        }
-    </script>
-    <script>
-        function updateCounter() {
-            var num1 = document.getElementById('num1').value;
-            var num2 = document.getElementById('num2').value;
-            if (num1!= '' && num2!= '') {
-                var result = parseInt(num1) + parseInt(num2);
-                document.getElementById('result').innerHTML = result;
-            }
-        }
-    </script>
-    <script>
-        function resetCounter() {
-            document.getElementById('num1').value = '';
-            document.getElementById('num2').value = '';
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('counter').innerHTML = '';
-        }
-    </script>
-    <script>
-        function updateCounter() {
-            var num1 = document.getElementById('num1').value;
-            var num2 = document.getElementById('num2').value;
-            if (num1!= '' && num2!= '') {
-                var result = parseInt(num1) + parseInt(num2);
-                document.getElementById('result').innerHTML = result;
-            }
-        }
-    </script>
-    <script>
-        function resetCounter() {
-            document.getElementById('num1').value = '';
-            document.getElementById('num2').script = '';
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('counter').innerHTML = '';
-        }
-    </script>
-    <script>
-        function updateCounter() {
-            var num1 = document.getElementById('num1').value;
-            var num2 = document.getElementById('num2').value;
-            if (num1!= '' && num2!= '') {
-                var result = parseInt(num1) + parseInt(num2);
-                document.getElementById('result').innerHTML = result;
-            }
-        }
-    </script>
-    <script>
-        function resetCounter() {
-            document.getElementById('num1').value = '';
-            document.getElementById('num2').script = '';
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('counter').innerHTML = '';
-        }
-    </script>
-    <script>
-        function updateCounter() {
-            var num1 = document.getElementById('num1').value;
-            var num2 = document.getElementById('num2').value;
-            if (num1!= '' && num2!= '') {

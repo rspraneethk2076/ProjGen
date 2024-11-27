@@ -1,21 +1,25 @@
 #src/app.py
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
-app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
-counter = 0
+import logging
+import traceback
+logging.basicConfig(
+    filename='app.log',
+    level=logging.ERROR,
+    filemode='w',  
+)
 
+app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
 @app.route('/', methods=['GET', 'POST'])
 def add():
-    global counter
     if request.method == 'POST':
         try:
             num1 = float(request.form['num1'])
             num2 = float(request.form['num2'])
             result = num1 + num2
-            counter += 1
-            return render_template('add.html', result=result, counter=counter)
+            return render_template('add.html', result=result)
         except ValueError:
-            return render_template('add.html', error='Invalid input')
+            return "Invalid input. Please enter valid numbers."
     return render_template('add.html')
 
 if __name__ == '__main__':
@@ -29,27 +33,18 @@ if __name__ == '__main__':
     <title>Addition</title>
 </head>
 <body>
-    <h1>Addition</h1>
-    <form action="/add" method="post">
+    <form action="" method="post">
         <input type="number" name="num1" placeholder="Number 1" required>
         <input type="number" name="num2" placeholder="Number 2" required>
         <button type="submit">Add</button>
-        <p>Result: {{ result }}</p>
-        <p>Counter: {{ counter }}</p>
-        <button onclick="clearForm()">Clear</button>
+        <p id="result"></p>
     </form>
     <script>
-        function clearForm() {
-            document.getElementById('num1').value = '';
-            document.getElementById('num2').value = '';
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('counter').innerHTML = '';
-        }
+        document.getElementById('result').innerHTML = document.getElementById('num1').value + document.getElementById('num2').value;
     </script>
 </body>
 </html>
 
 #src/requirements.txt
 Flask==2.0.3
-
 
