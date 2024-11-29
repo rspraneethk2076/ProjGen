@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 import os
-
+import time
 def raw_code(response, file_path):
     if response.status_code == 200:
         with open(file_path, 'wb') as f:
@@ -11,6 +11,16 @@ def raw_code(response, file_path):
     else:
         print("Failed to generate code:", response.status_code, response.text)
         return False
+def show_logs():
+    script_dir = os.path.dirname(__file__)  
+    project_dir = os.path.dirname(script_dir)
+    log_file_path = os.path.join(project_dir, 'genmaya3s.log')
+    try:
+        with open(log_file_path, "r") as file:
+            log_data = file.read()
+        st.sidebar.text_area("Log Output", value=log_data, height=300, max_chars=None)
+    except IOError:
+        st.sidebar.error("Failed to read log file.")
 
 url = 'http://127.0.0.1:5000/generate_code'
 # Page setup
@@ -45,7 +55,7 @@ if st.button("Submit"):
         files = {"file": uploaded_pdf.getvalue()} if uploaded_pdf else None
 
         response = requests.post(url, json=payload, files=files)
-        file_created = raw_code(response, file_path=os.path.join("D:/Downloads/genMaya/files", f'{st.session_state.project_title}_flask_app.txt'))
+        file_created = raw_code(response, file_path=os.path.join("C:/Users/HP/Downloads/GenMaya3s/files", f'{st.session_state.project_title}_flask_app.txt'))
         
         if file_created:
             st.switch_page("pages/Code_testor.py")  # Reload the page to reflect changes
@@ -53,3 +63,6 @@ if st.button("Submit"):
             st.write("Go to the **Display Page** in the sidebar to view the details.")
         else:
             st.warning("There is an issue in file creation")
+st.sidebar.header("Project Logs")
+show_logs()
+

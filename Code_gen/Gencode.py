@@ -7,11 +7,14 @@ import threading
 import streamlit as st
 import requests
 import re
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-
+from log_function import logger
 
 
 subprocess.run(["python", "login_hf.py"])
+logger.debug("login_hf.py script executed")
 
 app = Flask(__name__)
 existing_code=""
@@ -51,7 +54,7 @@ prompt_template = PromptTemplate.from_template(
     
     #src/app.py
 from flask import Flask, render_template, request, redirect, url_for
-app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
+app = Flask(__name__,template_folder='C:/Users/HP/Downloads/GenMaya3s/projects/project1/templates')
 import logging
 import traceback
 logging.basicConfig(
@@ -118,7 +121,7 @@ The final Code:
   
 #src/app.py
 from flask import Flask, render_template, jsonify
-app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
+app = Flask(__name__,template_folder='C:/Users/HP/Downloads/GenMaya3s/projects/project1/templates')
 app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
 counter = 0
 
@@ -195,38 +198,61 @@ llm = HuggingFaceHub(
         "max_new_tokens": 1000
     }
 )
+logger.info("HuggingFaceHub and LLMChain initialized")
 
 chain = LLMChain(llm=llm, prompt=prompt_template)
 
 
 @app.route('/')
 def home():
+    logger.debug("Home route accessed")
     return "Server is running", 200
 
 @app.route('/generate_code', methods=['POST'])
 def generate_code():
     # Retrieve the problem statement from the request
+    logger.debug("Accessed /generate_code endpoint.")
     data = request.get_json()
     problem_statement = data.get('problem_statement', '')
     project_name=data.get('project_name','')
-
+    logger.info(f"Received data - Problem Statement: {problem_statement}, Project Name: {project_name}")
     # Use the problem statement to invoke the model
-    response = chain.invoke({'problem_statement': problem_statement})
-    formatted_code = response['text'].strip()
+    try:
+        response = chain.invoke({'problem_statement': problem_statement})
+        formatted_code = response['text'].strip()
+        logger.info("Code generated successfully by the model.")
+    except Exception as e:
+        logger.error("Failed to generate code with the model.", exc_info=True)
+        return jsonify({"error": "Failed to generate code"}), 500
 
-    file_path = os.path.join("D:/Downloads/genMaya/files",f'{project_name}_flask_app.txt')
-    with open(file_path, 'w') as file:
-        file.write(formatted_code)
+    file_path = os.path.join("C:/Users/HP/Downloads/GenMaya3s/files",f'{project_name}_flask_app.txt')
+    try:
+        with open(file_path, 'w') as file:
+            file.write(formatted_code)
+        logger.info(f"Code written to file successfully: {file_path}")
+    except IOError as e:
+        logger.error(f"Failed to write to file: {file_path}", exc_info=True)
+        return jsonify({"error": "Failed to write to file"}), 500
 
     time.sleep(5)
-    # bat_file_path = os.path.join("D:/Downloads/genMaya", "main.bat")  # Update with your actual path
+    logger.debug('Processing completed with a delay for file handling')
+    # bat_file_path = os.path.join("C:/Users/HP/Downloads/GenMaya3s", "main.bat")  # Update with your actual path
     # subprocess.run([bat_file_path], shell=True)
 
 
-    subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/remove_noise.py",project_name], shell=True)
-    subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/format_folders.py",project_name], shell=True)
-
-    return send_file(file_path, as_attachment=True)
+    try:
+        subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/remove_noise.py", project_name], shell=True)
+        subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/format_folders.py", project_name], shell=True)
+        logger.info("Subprocesses for removing noise and formatting folders completed successfully.")
+    except subprocess.CalledProcessError as e:
+        logger.error("Subprocess execution failed.", exc_info=True)
+        return jsonify({"error": "Subprocess execution failed"}), 500
+    # Return the file to the client
+    try:
+        return send_file(file_path, as_attachment=True)
+    except Exception as e:
+        logger.error("Failed to send file to client.", exc_info=True)
+        return jsonify({"error": "Failed to send file"}), 500
 
 
 ################################################################
@@ -255,7 +281,7 @@ def correct_error():
     
     #src/app.py
 from flask import Flask, render_template, request, redirect, url_for
-app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
+app = Flask(__name__,template_folder='C:/Users/HP/Downloads/GenMaya3s/projects/project1/templates')
 
 
 
@@ -309,7 +335,7 @@ The final Code:
   
 #src/app.py
 from flask import Flask, render_template, jsonify
-app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
+app = Flask(__name__,template_folder='C:/Users/HP/Downloads/GenMaya3s/projects/project1/templates')
 app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
 counter = 0
 
@@ -384,7 +410,7 @@ pause
 #     data = request.get_json()
 #     error_message=data.get('project_name','')
 #     problem_statement, project_name = st.session_state.project_description, st.session_state.project_title
-#     with open(f"D:/Downloads/genMaya/files/{project_name}_flask_app.txt", 'r') as file:
+#     with open(f"C:/Users/HP/Downloads/GenMaya3s/files/{project_name}_flask_app.txt", 'r') as file:
 #         existing_code = file.read()
 
 #     chain= correct_error(error_message,existing_code,problem_statement)
@@ -393,17 +419,17 @@ pause
 
 #     formatted_code = response['text'].strip()
 
-#     file_path = os.path.join("D:/Downloads/genMaya/files",f'{project_name}_flask_app.txt')
+#     file_path = os.path.join("C:/Users/HP/Downloads/GenMaya3s/files",f'{project_name}_flask_app.txt')
 #     with open(file_path, 'w') as file:
 #         file.write(formatted_code)
 
 #     time.sleep(5)
-#     # bat_file_path = os.path.join("D:/Downloads/genMaya", "main.bat")  # Update with your actual path
+#     # bat_file_path = os.path.join("C:/Users/HP/Downloads/GenMaya3s", "main.bat")  # Update with your actual path
 #     # subprocess.run([bat_file_path], shell=True)
 
 
-#     subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/remove_noise.py",project_name], shell=True)
-#     subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/format_folders.py",project_name], shell=True)
+#     subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/remove_noise.py",project_name], shell=True)
+#     subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/format_folders.py",project_name], shell=True)
 
 #     return send_file(file_path, as_attachment=True)
 
@@ -414,24 +440,30 @@ def get_last_log_lines(log_file, num_lines=4):
     try:
         with open(log_file, "r") as file:
             lines = file.readlines()
+            logger.info(f"Successfully retrieved last lines from {log_file}")
             return lines[-num_lines:]  # Return the last 'num_lines' lines
     except FileNotFoundError:
+        logger.error(f"Log file not found: {log_file}")
         return ["Log file not found.\n"]
     except Exception as e:
+        logger.error(f"Error reading log file {log_file}: {str(e)}", exc_info=True)
         return [f"Error reading log file: {e}\n"]
 
 # Function to test routes and capture logs
-def test_routes(routes, log_file="D:/Downloads/genMaya/Frontend/app.log"):
+def test_routes(routes, log_file="C:/Users/HP/Downloads/GenMaya3s/Frontend/app.log"):
     logs_per_route = {}
 
     for route in routes:
         url = f"{route}"
-        print(f"Testing route: {url}")
+        logger.debug(f"Testing route: {url}")
 
         try:
             response = requests.get(url)
+            status_code = response.status_code
+            logger.info(f"Request to {url} returned status code {status_code}")
         except Exception as e:
-            print(f"Error requesting {url}: {e}")
+            logger.error(f"Error requesting {url}: {str(e)}", exc_info=True)
+            status_code = None
         
         # Fetch the last 4 lines of the log file
         last_log_lines = get_last_log_lines(log_file)
@@ -443,52 +475,83 @@ def test_routes(routes, log_file="D:/Downloads/genMaya/Frontend/app.log"):
 
 @app.route('/correct_code', methods=['POST'])
 def correct_code():
+    logger.debug("Accessed the correct_code endpoint")
     data = request.get_json()
     error_message = data.get('error_message', '')
     problem_statement = "You are tasked with creating a basic web application using Flask that functions as a simple counter application. The application should have buttons for incrementing and decrementing a counter value. The current value of the counter should be displayed prominently on the page and updated dynamically as the user interacts with the buttons. Additionally, a reset button should be included to reset th"
     project_name = "krishna"
-
+    logger.info(f"Received data for project {project_name} with error message: {error_message}")
     # Read the existing code from the file
-    with open(f"D:/Downloads/genMaya/files/{project_name}_flask_app.txt", 'r') as file:
-        existing_code = file.read()
+    file_path = f"C:/Users/HP/Downloads/GenMaya3s/files/{project_name}_flask_app.txt"
+    try:
+        with open(file_path, 'r') as file:
+            existing_code = file.read()
+        logger.info(f"Successfully read existing code from {file_path}")
+    except Exception as e:
+        logger.error(f"Failed to read file {file_path}: {str(e)}", exc_info=True)
+        return jsonify({"error": "Failed to read file"}), 500
 
     # Correct the error by invoking the LLM chain
-    chain = correct_error()  # Create the chain instance
-    response = chain.invoke({
-        'problem_statement': problem_statement,
-        'existing_code': existing_code,
-        'error_details': error_message  # Ensure error_details is passed correctly
-    })
+    try:
+        chain = correct_error()  # Assume correct_error returns a configured LLMChain instance
+        response = chain.invoke({
+            'problem_statement': problem_statement,
+            'existing_code': existing_code,
+            'error_details': error_message
+        })
+        formatted_code = response['text'].strip()
+        logger.debug("Code correction invoked successfully")
+    except Exception as e:
+        logger.error("Failed during LLM chain invocation", exc_info=True)
+        return jsonify({"error": "LLM chain invocation failed"}), 500
 
-    formatted_code = response['text'].strip()
-
-    file_path = os.path.join("D:/Downloads/genMaya/files", f'{project_name}_flask_app.txt')
-    with open(file_path, 'w') as file:
-        file.write(formatted_code)
+    try:
+        with open(file_path, 'w') as file:
+            file.write(formatted_code)
+        logger.info(f"Corrected code written successfully to {file_path}")
+    except Exception as e:
+        logger.error(f"Failed to write to file {file_path}: {str(e)}", exc_info=True)
+        return jsonify({"error": "Failed to write to file"}), 500
 
     time.sleep(5)
-    subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/remove_noise.py", project_name], shell=True)
-    subprocess.run(["python", "D:/Downloads/genMaya/Code_encode/format_folders.py", project_name], shell=True)
+    try:
+        subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/remove_noise.py", project_name], shell=True)
+        subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/format_folders.py", project_name], shell=True)
+        logger.info("Post-correction subprocesses executed successfully")
+    except subprocess.CalledProcessError as e:
+        logger.error("Subprocess execution failed", exc_info=True)
+        return jsonify({"error": "Subprocess execution failed"}), 500
     time.sleep(10)
-    return send_file(file_path, as_attachment=True)
+    try:
+        return send_file(file_path, as_attachment=True)
+    except Exception as e:
+        logger.error("Failed to send file to client", exc_info=True)
+        return jsonify({"error": "Failed to send file"}), 500
 
 
 
 def get_routes_from_app(file_path):
     route_pattern = re.compile(r"@app\.route\(['\"](.*?)['\"].*?\)")
     routes = []
-    with open(file_path, 'r') as file:
-        for line in file:
-            match = route_pattern.search(line)
-            if match:
-                routes.append(f"http://127.0.0.1:5001{match.group(1)}")
-    print("Detected routes:", routes)
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                match = route_pattern.search(line)
+                if match:
+                    routes.append(f"http://127.0.0.1:5001{match.group(1)}")
+        logger.info("Detected routes: {}".format(routes))
+    except FileNotFoundError:
+        logger.error(f"File not found: {file_path}")
+        return []  # Return an empty list if the file cannot be found
+    except Exception as e:
+        logger.error(f"An error occurred while reading the file {file_path}: {str(e)}")
+        return []
     return routes
 
 @app.route('/code_val',methods=['POST'])
 def code_validator():
-    app_file_path = "D:/Downloads/genMaya/projects/krishna/src/app.py"
-    batch_file_path = "D:/Downloads/genMaya/projects/krishna/run_project.bat"
+    app_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/src/app.py"
+    batch_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/run_project.bat"
     batch_args = ["krishna"]
     api_endpoints = get_routes_from_app(app_file_path)
 
@@ -498,7 +561,7 @@ def code_validator():
     # print("Environment setup complete")
 
     # # Start the Flask app in a separate process
-    
+
     # # out,err=app_process.communicate()
     # time.sleep(6)
 
@@ -510,22 +573,23 @@ def code_validator():
         #     print(f"Error at {endpoint}: Status {response.status_code}")
             
             # # Terminate the Flask app process and re-run the setup
-            # subprocess.run(["D:/Downloads/genMaya/start_proj.bat"], shell=True, check=True)
+            # subprocess.run(["C:/Users/HP/Downloads/GenMaya3s/start_proj.bat"], shell=True, check=True)
             # time.sleep(5)
 
             # Run error handler with the error response
    # Extract up to 200 characters of error
             error_details=test_routes(api_endpoints)
-            # subprocess.run(["python", "D:/Downloads/genMaya/Code_Corrector/Code.py", error_details], shell=True, check=True)
+            # subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_Corrector/Code.py", error_details], shell=True, check=True)
             payload = {
         "error_message": error_details
             }
             response=requests.post("http://127.0.0.1:5000/correct_code",json=payload)
             time.sleep(5)
-
+            logger.info("Post request to correct_code completed successfully")
 
     except requests.exceptions.RequestException as e:
-        print(f"{e}")
+        logger.error(f"Request to correct_code failed: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
                  
 
     return "Flask app process terminated"

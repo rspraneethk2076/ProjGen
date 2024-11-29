@@ -1,0 +1,84 @@
+2024-11-28 18:25:43,160 - Gencode.py - DEBUG - Home route accessed
+2024-11-28 18:26:15,836 - Gencode.py - DEBUG - Accessed /generate_code endpoint.
+2024-11-28 18:26:15,837 - Gencode.py - INFO - Received data - Problem Statement: You are tasked with creating a basic web application using Flask that functions as a BMI (Body Mass Index) calculator. The application should have input fields for users to enter their height and weight, and upon submission, it should calculate the BMI and display the corresponding category (e.g., underweight, normal, overweight, obese) on the same page without requiring a refresh. The application should handle edge cases such as non-numeric inputs by displaying appropriate error messages. The goal is to provide a straightforward tool that quickly calculates BMI and gives users instant feedback on their results., Project Name: sdc
+2024-11-28 18:26:32,902 - Gencode.py - INFO - Code generated successfully by the model.
+2024-11-28 18:26:32,902 - Gencode.py - INFO - Code written to file successfully: C:/Users/HP/Downloads/GenMaya3s/files\sdc_flask_app.txt
+2024-11-28 18:26:37,907 - Gencode.py - DEBUG - Processing completed with a delay for file handling
+2024-11-28 18:26:38,034 - remove_noise.py - INFO - Script execution started.
+2024-11-28 18:26:38,052 - remove_noise.py - DEBUG - Parsed arguments: project_name=sdc
+2024-11-28 18:26:38,053 - remove_noise.py - INFO - Main function started for project: sdc
+2024-11-28 18:26:38,054 - remove_noise.py - INFO - Starting to remove text before the third occurrence of '#src/app.py' in file: C:/Users/HP/Downloads/GenMaya3s/files/sdc_flask_app.txt
+2024-11-28 18:26:38,081 - remove_noise.py - DEBUG - File content read successfully.
+2024-11-28 18:26:38,081 - remove_noise.py - DEBUG - File split into 5 parts based on '#src/app.py'.
+2024-11-28 18:26:38,082 - remove_noise.py - INFO - Text after the third occurrence retained.
+2024-11-28 18:26:38,082 - remove_noise.py - INFO - Updated content written back to file: C:/Users/HP/Downloads/GenMaya3s/files/sdc_flask_app.txt
+2024-11-28 18:26:38,083 - remove_noise.py - INFO - Starting to remove text after the first occurrence of '#src/run_project.bat' in file: C:/Users/HP/Downloads/GenMaya3s/files/sdc_flask_app.txt
+2024-11-28 18:26:38,107 - remove_noise.py - DEBUG - File lines read successfully.
+2024-11-28 18:26:38,108 - remove_noise.py - INFO - First occurrence of '#src/run_project.bat' found. Stopping text retention.
+2024-11-28 18:26:38,109 - remove_noise.py - INFO - Updated content written back to file: C:/Users/HP/Downloads/GenMaya3s/files/sdc_flask_app.txt
+2024-11-28 18:26:38,109 - remove_noise.py - INFO - Main function completed successfully.
+2024-11-28 18:26:38,252 - format_folders.py - INFO - Script started with project: sdc
+2024-11-28 18:26:38,253 - format_folders.py - INFO - Starting main function for project: sdc
+2024-11-28 18:26:38,253 - format_folders.py - INFO - Formatting raw file: C:/Users/HP/Downloads/GenMaya3s/files/sdc_flask_app.txt for project: sdc
+2024-11-28 18:26:38,272 - format_folders.py - DEBUG - Raw file content loaded.
+2024-11-28 18:26:38,272 - format_folders.py - DEBUG - Splitting text into sections based on pattern.
+2024-11-28 18:26:38,273 - format_folders.py - DEBUG - Text split into 4 parts.
+2024-11-28 18:26:38,274 - format_folders.py - DEBUG - Creating directories: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#src
+2024-11-28 18:26:38,276 - format_folders.py - INFO - Formatted and saved section to: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#src/app.py
+2024-11-28 18:26:38,277 - format_folders.py - DEBUG - Creating directories: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#templates
+2024-11-28 18:26:38,278 - format_folders.py - INFO - Formatted and saved section to: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#templates/bmi_input.html
+2024-11-28 18:26:38,279 - format_folders.py - DEBUG - Creating directories: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#templates
+2024-11-28 18:26:38,280 - format_folders.py - INFO - Formatted and saved section to: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#templates/bmi_result.html
+2024-11-28 18:26:38,281 - format_folders.py - DEBUG - Creating directories: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#src
+2024-11-28 18:26:38,282 - format_folders.py - INFO - Formatted and saved section to: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#src/requirements.txt
+2024-11-28 18:26:38,284 - format_folders.py - INFO - Copied run_project.bat to project directory.
+2024-11-28 18:26:38,285 - format_folders.py - INFO - Starting to merge folders in base directory: C:/Users/HP/Downloads/GenMaya3s/projects
+2024-11-28 18:26:38,286 - format_folders.py - DEBUG - Found projects: ['eee', 'kkk', 'kkkkkkk', 'kmnj', 'krishna', 'llll', 'mmmm', 'ramu', 'sai', 'sdc', 'test1', 'test2', 'test6']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: eee with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: kkk with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: kkkkkkk with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: kmnj with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: krishna with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: llll with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: mmmm with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: ramu with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: sai with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: sdc with subfolders: ['#src', '#templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: test1 with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: test2 with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - DEBUG - Processing project: test6 with subfolders: ['src', 'templates']
+2024-11-28 18:26:38,288 - format_folders.py - INFO - Renaming folder names in base directory: C:/Users/HP/Downloads/GenMaya3s/projects
+2024-11-28 18:26:38,288 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\eee\src to C:/Users/HP/Downloads/GenMaya3s/projects\eee\src
+2024-11-28 18:26:38,302 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\eee\templates to C:/Users/HP/Downloads/GenMaya3s/projects\eee\templates
+2024-11-28 18:26:38,303 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\kkk\src to C:/Users/HP/Downloads/GenMaya3s/projects\kkk\src
+2024-11-28 18:26:38,305 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\kkk\templates to C:/Users/HP/Downloads/GenMaya3s/projects\kkk\templates
+2024-11-28 18:26:38,306 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\kkkkkkk\src to C:/Users/HP/Downloads/GenMaya3s/projects\kkkkkkk\src
+2024-11-28 18:26:38,308 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\kkkkkkk\templates to C:/Users/HP/Downloads/GenMaya3s/projects\kkkkkkk\templates
+2024-11-28 18:26:38,310 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\kmnj\src to C:/Users/HP/Downloads/GenMaya3s/projects\kmnj\src
+2024-11-28 18:26:38,311 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\kmnj\templates to C:/Users/HP/Downloads/GenMaya3s/projects\kmnj\templates
+2024-11-28 18:26:38,313 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\krishna\src to C:/Users/HP/Downloads/GenMaya3s/projects\krishna\src
+2024-11-28 18:26:38,314 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\krishna\templates to C:/Users/HP/Downloads/GenMaya3s/projects\krishna\templates
+2024-11-28 18:26:38,316 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\llll\src to C:/Users/HP/Downloads/GenMaya3s/projects\llll\src
+2024-11-28 18:26:38,317 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\llll\templates to C:/Users/HP/Downloads/GenMaya3s/projects\llll\templates
+2024-11-28 18:26:38,318 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\mmmm\src to C:/Users/HP/Downloads/GenMaya3s/projects\mmmm\src
+2024-11-28 18:26:38,321 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\mmmm\templates to C:/Users/HP/Downloads/GenMaya3s/projects\mmmm\templates
+2024-11-28 18:26:38,322 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\ramu\src to C:/Users/HP/Downloads/GenMaya3s/projects\ramu\src
+2024-11-28 18:26:38,323 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\ramu\templates to C:/Users/HP/Downloads/GenMaya3s/projects\ramu\templates
+2024-11-28 18:26:38,325 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\sai\src to C:/Users/HP/Downloads/GenMaya3s/projects\sai\src
+2024-11-28 18:26:38,326 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\sai\templates to C:/Users/HP/Downloads/GenMaya3s/projects\sai\templates
+2024-11-28 18:26:38,328 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#src to C:/Users/HP/Downloads/GenMaya3s/projects\sdc\src
+2024-11-28 18:26:38,329 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\sdc\#templates to C:/Users/HP/Downloads/GenMaya3s/projects\sdc\templates
+2024-11-28 18:26:38,330 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\test1\src to C:/Users/HP/Downloads/GenMaya3s/projects\test1\src
+2024-11-28 18:26:38,332 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\test1\templates to C:/Users/HP/Downloads/GenMaya3s/projects\test1\templates
+2024-11-28 18:26:38,333 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\test2\src to C:/Users/HP/Downloads/GenMaya3s/projects\test2\src
+2024-11-28 18:26:38,335 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\test2\templates to C:/Users/HP/Downloads/GenMaya3s/projects\test2\templates
+2024-11-28 18:26:38,336 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\test6\src to C:/Users/HP/Downloads/GenMaya3s/projects\test6\src
+2024-11-28 18:26:38,337 - format_folders.py - INFO - Renamed folder: C:/Users/HP/Downloads/GenMaya3s/projects\test6\templates to C:/Users/HP/Downloads/GenMaya3s/projects\test6\templates
+2024-11-28 18:26:38,338 - format_folders.py - INFO - Cleaning requirements file: C:/Users/HP/Downloads/GenMaya3s/projects/sdc/src/requirements.txt
+2024-11-28 18:26:38,340 - format_folders.py - DEBUG - Found 1 unique packages.
+2024-11-28 18:26:38,342 - format_folders.py - INFO - Cleaned requirements file saved: C:/Users/HP/Downloads/GenMaya3s/projects/sdc/src/requirements.txt
+2024-11-28 18:26:38,342 - format_folders.py - INFO - Zipping folder: C:/Users/HP/Downloads/GenMaya3s/projects/sdc to C:/Users/HP/Downloads/GenMaya3s/zip_files with name: sdc.zip
+2024-11-28 18:26:38,388 - format_folders.py - INFO - Folder 'C:/Users/HP/Downloads/GenMaya3s/projects/sdc' zipped successfully to 'C:/Users/HP/Downloads/GenMaya3s/zip_files\sdc.zip'.
+2024-11-28 18:26:38,388 - format_folders.py - INFO - Main function completed successfully.
+2024-11-28 18:26:38,420 - Gencode.py - INFO - Subprocesses for removing noise and formatting folders completed successfully.
+2024-11-28 18:30:41,197 - Gencode.py - DEBUG - Home route accessed
