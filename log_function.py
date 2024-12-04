@@ -1,6 +1,7 @@
 import logging
 import os
-
+import signal
+import sys
 # Centralized logger setup
 def setup_logger():
     logger = logging.getLogger('Genmaya3sLogger')
@@ -26,5 +27,24 @@ def setup_logger():
 
     return logger
 
-# Instantiate the logger
+def cleanup_logger():
+    logger = logging.getLogger('Genmaya3sLogger')
+    handlers = logger.handlers[:]
+    for handler in handlers:
+        handler.close()
+        logger.removeHandler(handler)
+
+    log_file_path = os.path.join(os.path.dirname(__file__), 'genmaya3s.log')
+    if os.path.exists(log_file_path):
+        os.remove(log_file_path)
+        print("Log file deleted successfully.")
+    else:
+        print("Log file does not exist.")
+
+def signal_handler(signal, frame):
+    print('Ctrl+C pressed! Cleaning up...')
+    cleanup_logger()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 logger = setup_logger()

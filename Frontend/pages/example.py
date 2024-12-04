@@ -20,7 +20,7 @@ def check_server_status(url):
 
 
 def start_server(st):
-    batch_file_path = "D:/Downloads/genMaya/projects/krishna/run_project.bat"
+    batch_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/run_project.bat"
     batch_args = ["krishna"]
     
     # Run the batch script and wait for it to complete
@@ -29,7 +29,7 @@ def start_server(st):
     
     # Start the Flask server
     subprocess.run(
-        ["flask", "--app", "D:/Downloads/genMaya/projects/krishna/src/app.py", "run", "--host=127.0.0.1", "--port=5001"],
+        ["flask", "--app", "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/src/app.py", "run", "--host=127.0.0.1", "--port=5001"],
         shell=False,
         check=True,
     )

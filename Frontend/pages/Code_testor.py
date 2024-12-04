@@ -17,7 +17,7 @@ else:
     st.warning("No project information submitted yet. Please go to the main page to enter the details.")
 
 # List available zip files
-zip_folder = Path("D:/Downloads/genMaya/zip_files")
+zip_folder = Path("C:/Users/HP/Downloads/GenMaya3s/zip_files")
 zip_files = list(zip_folder.glob("*.zip"))
 
 if zip_files:
@@ -33,7 +33,7 @@ if zip_files:
                     file_name=zip_file.name,
                     mime="application/zip"
                 )
-            # subprocess.Popen(["python", "D:/Downloads/genMaya/projects/krishna/src/app.py"])
+            # subprocess.Popen(["python", "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/src/app.py"])
             
             # "Check Code" button
             if st.button("Check Code"):
