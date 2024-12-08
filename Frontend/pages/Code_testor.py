@@ -4,9 +4,10 @@ from pathlib import Path
 import requests
 import os
 import subprocess
-
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config import ZIP_FILES_DIR
 st.set_page_config(page_title="Project Display Page", layout="centered")
-
 st.title("Display Submitted Project Information")
 
 # Display project information
@@ -17,7 +18,7 @@ else:
     st.warning("No project information submitted yet. Please go to the main page to enter the details.")
 
 # List available zip files
-zip_folder = Path("C:/Users/HP/Downloads/GenMaya3s/zip_files")
+zip_folder = Path(ZIP_FILES_DIR)
 zip_files = list(zip_folder.glob("*.zip"))
 
 if zip_files:

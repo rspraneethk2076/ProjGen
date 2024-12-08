@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+from config import FILES_DIR
 from log_function import logger
 
 
@@ -58,7 +58,7 @@ def remove_text_after_bat_occurrence(file_path):
 def main(project_name):
     logger.info(f"Main function started for project: {project_name}")
     try:
-        file_path = f'C:/Users/HP/Downloads/GenMaya3s/files/{project_name}_flask_app.txt'
+        file_path = os.path.join(FILES_DIR, f'{project_name}_flask_app.txt')
         remove_text_before_third_occurrence(file_path)
         remove_text_after_bat_occurrence(file_path)
         logger.info("Main function completed successfully.")
@@ -70,7 +70,6 @@ if __name__ == "__main__":
     logger.info("Script execution started.")
     parser = argparse.ArgumentParser(description="Process a project file by removing specific text.")
     parser.add_argument("project_name", type=str, help="The name of the project file to process")
-    
     args = parser.parse_args()
     logger.debug(f"Parsed arguments: project_name={args.project_name}")
     main(args.project_name)
