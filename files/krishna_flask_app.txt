@@ -1,0 +1,44 @@
+#src/app.py
+from flask import Flask, render_template, jsonify
+app = Flask(__name__,template_folder='D:/Downloads/genMaya/projects/project1/templates')
+app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
+counter = 0
+
+@app.route('/counter', methods=['GET'])
+def get_counter():
+    return jsonify(counter=counter)
+
+@app.route('/increment', methods=['POST'])
+def increment():
+    global counter
+    counter += 1
+    return jsonify(counter=counter)
+
+@app.route('/decrement', methods=['POST'])
+def decrement():
+    global counter
+    counter -= 1
+    return jsonify(counter=counter)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
+#templates/counter.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Counter</title>
+</head>
+<body>
+    <h1>Counter: <span id="counter">0</span></h1>
+    <button onclick="increment()">Increment</button>
+    <button onclick="decrement()">Decrement</button>
+</body>
+</html>
+
+
+#src/requirements.txt
+Flask==2.0.3
+
+

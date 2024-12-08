@@ -1,0 +1,65 @@
+#src/app.py
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+import math
+import operator
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] ='secret_key'
+
+class CalculatorForm(FlaskForm):
+    expression = StringField('Expression', validators=[DataRequired()])
+    calculate = SubmitField('Calculate')
+
+@app.route('/', methods=['GET', 'POST'])
+def main():
+    form = CalculatorForm()
+    if form.validate_on_submit():
+        try:
+            expression = form.expression.data
+            result = eval(expression)
+            return render_template('index.html', result=result)
+        except Exception as e:
+            return render_template('index.html', error=str(e))
+    return render_template('index.html', form=form)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+#templates/index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Scientific Calculator</h1>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            {{ form.expression.label }} {{ form.expression() }}
+            {{ form.calculate.label }} {{ form.calculate() }}
+        </form>
+        {% if error %}
+            <p style="color: red">{{ error }}</p>
+        {% elif result %}
+            <p>Result: {{ result }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+```
+
+#src/requirements.txt
+```
+Flask==2.0.1
+Flask-WTF==0.14.2
+```
+

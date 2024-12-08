@@ -1,0 +1,8 @@
+Traceback for :
+Traceback (most recent call last):
+  File "D:\Downloads\genMaya\sampl.py", line 27, in <module>
+    test_routes(server_url, routes)
+  File "D:\Downloads\genMaya\sampl.py", line 23, in test_routes
+    raise Exception(f"{response.status_code}")
+Exception: 500
+
