@@ -550,9 +550,11 @@ def get_routes_from_app(file_path):
 
 @app.route('/code_val',methods=['POST'])
 def code_validator():
-    app_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/src/app.py"
-    batch_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/run_project.bat"
-    batch_args = ["krishna"]
+    data=request.get_json()
+    project_name=data.get('project_name','')
+    app_file_path = f"C:/Users/HP/Downloads/GenMaya3s/projects/{project_name}/src/app.py"
+    # batch_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/run_project.bat"
+    # batch_args = ["krishna"]
     api_endpoints = get_routes_from_app(app_file_path)
 
     print("------------------------------------------------------------------------------------------------------------------------------------------------------------")

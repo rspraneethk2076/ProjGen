@@ -39,8 +39,10 @@ if zip_files:
             if st.button("Check Code"):
                 with st.spinner("Running code validation..."):
                     try:
-                        # Execute val.py
-                        response = requests.post('http://127.0.0.1:5000/code_val')
+                        payload={
+                            "project_name":st.session_state.project_title
+                        }
+                        response = requests.post('http://127.0.0.1:5000/code_val',json=payload)
                         # If execution is successful, refresh and show success message
                         st.success("Code validation successful!")
                     except subprocess.CalledProcessError as e:
