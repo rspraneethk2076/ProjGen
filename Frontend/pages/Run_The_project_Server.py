@@ -4,10 +4,11 @@ import requests
 from time import sleep
 import os
 import signal
-
-
-server_url = "http://127.0.0.1:5000"
-st.title("Flask Server Control Panel")
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config import PROJECTS_DIR
+server_url = "http://127.0.0.1:5001"
+st.title("Project Server Control Panel")
 server_process =None
 
 
@@ -20,8 +21,22 @@ def check_server_status(url):
 
 
 def start_server(st):
+    batch_file_path = PROJECTS_DIR / 'krishna' / 'run_project.bat'
+    batch_args = ["krishna"]
+    
+    # Run the batch script and wait for it to complete
+    subprocess.run([batch_file_path] + batch_args, shell=True, check=True)
+    print("Batch script executed successfully.")
+    
+    # Start the Flask server
+    flask_app_path = PROJECTS_DIR / 'krishna' / 'src' / 'app.py'
+    subprocess.run(
+        ["flask", "--app", str(flask_app_path), "run", "--host=127.0.0.1", "--port=5001"],
+        shell=False,
+        check=True,
+    )
+    print("Flask server started successfully.")
 
-    subprocess.call(["flask", "--app", "C:/Users/HP/Downloads/GenMaya3s/Code_gen/Gencode.py", "run"], shell=False)
 
 def stop_server():
     subprocess.call("taskkill /f /im flask.exe", shell=False)

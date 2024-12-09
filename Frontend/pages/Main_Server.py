@@ -4,10 +4,11 @@ import requests
 from time import sleep
 import os
 import signal
-
-
-server_url = "http://127.0.0.1:5001"
-st.title("project Server Control Panel")
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config import GENCODE_PY
+server_url = "http://127.0.0.1:5000"
+st.title("Main Server Control Panel")
 server_process =None
 
 
@@ -20,21 +21,8 @@ def check_server_status(url):
 
 
 def start_server(st):
-    batch_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/run_project.bat"
-    batch_args = ["krishna"]
-    
-    # Run the batch script and wait for it to complete
-    subprocess.run([batch_file_path] + batch_args, shell=True, check=True)
-    print("Batch script executed successfully.")
-    
-    # Start the Flask server
-    subprocess.run(
-        ["flask", "--app", "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/src/app.py", "run", "--host=127.0.0.1", "--port=5001"],
-        shell=False,
-        check=True,
-    )
-    print("Flask server started successfully.")
 
+    subprocess.call(["flask", "--app", str(GENCODE_PY), "run"], shell=False)
 
 def stop_server():
     subprocess.call("taskkill /f /im flask.exe", shell=False)

@@ -9,7 +9,7 @@ import requests
 import re
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+from config import FILES_DIR, REMOVE_NOISE_PY, FORMAT_FOLDERS_PY, LOG_FILE_PATH, BASE_DIR
 from log_function import logger
 
 
@@ -225,7 +225,7 @@ def generate_code():
         logger.error("Failed to generate code with the model.", exc_info=True)
         return jsonify({"error": "Failed to generate code"}), 500
 
-    file_path = os.path.join("C:/Users/HP/Downloads/GenMaya3s/files",f'{project_name}_flask_app.txt')
+    file_path = os.path.join(FILES_DIR ,f'{project_name}_flask_app.txt')
     try:
         with open(file_path, 'w') as file:
             file.write(formatted_code)
@@ -241,8 +241,8 @@ def generate_code():
 
 
     try:
-        subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/remove_noise.py", project_name], shell=True)
-        subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/format_folders.py", project_name], shell=True)
+        subprocess.run(["python", REMOVE_NOISE_PY, project_name], shell=True)
+        subprocess.run(["python", FORMAT_FOLDERS_PY, project_name], shell=True)
         logger.info("Subprocesses for removing noise and formatting folders completed successfully.")
     except subprocess.CalledProcessError as e:
         logger.error("Subprocess execution failed.", exc_info=True)
@@ -450,7 +450,7 @@ def get_last_log_lines(log_file, num_lines=4):
         return [f"Error reading log file: {e}\n"]
 
 # Function to test routes and capture logs
-def test_routes(routes, log_file="C:/Users/HP/Downloads/GenMaya3s/Frontend/app.log"):
+def test_routes(routes, log_file=LOG_FILE_PATH):
     logs_per_route = {}
 
     for route in routes:
@@ -482,7 +482,7 @@ def correct_code():
     project_name = "krishna"
     logger.info(f"Received data for project {project_name} with error message: {error_message}")
     # Read the existing code from the file
-    file_path = f"C:/Users/HP/Downloads/GenMaya3s/files/{project_name}_flask_app.txt"
+    file_path = os.path.join(FILES_DIR, f"{project_name}_flask_app.txt")
     try:
         with open(file_path, 'r') as file:
             existing_code = file.read()
@@ -515,8 +515,8 @@ def correct_code():
 
     time.sleep(5)
     try:
-        subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/remove_noise.py", project_name], shell=True)
-        subprocess.run(["python", "C:/Users/HP/Downloads/GenMaya3s/Code_encode/format_folders.py", project_name], shell=True)
+        subprocess.run(["python", REMOVE_NOISE_PY, project_name], shell=True)
+        subprocess.run(["python", FORMAT_FOLDERS_PY, project_name], shell=True)
         logger.info("Post-correction subprocesses executed successfully")
     except subprocess.CalledProcessError as e:
         logger.error("Subprocess execution failed", exc_info=True)
@@ -550,9 +550,11 @@ def get_routes_from_app(file_path):
 
 @app.route('/code_val',methods=['POST'])
 def code_validator():
-    app_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/src/app.py"
-    batch_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/run_project.bat"
-    batch_args = ["krishna"]
+    data=request.get_json()
+    project_name=data.get('project_name','')
+    app_file_path = os.path.join(BASE_DIR, 'projects', project_name, 'src', 'app.py')
+    # batch_file_path = "C:/Users/HP/Downloads/GenMaya3s/projects/krishna/run_project.bat"
+    # batch_args = ["krishna"]
     api_endpoints = get_routes_from_app(app_file_path)
 
     print("------------------------------------------------------------------------------------------------------------------------------------------------------------")

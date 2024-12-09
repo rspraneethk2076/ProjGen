@@ -17,14 +17,6 @@ def setup_logger():
         file_format = logging.Formatter('%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
         file_handler.setFormatter(file_format)
         logger.addHandler(file_handler)
-
-        # Console handler (optional for debugging in the terminal)
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.DEBUG)
-        console_format = logging.Formatter('%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
-        console_handler.setFormatter(console_format)
-        logger.addHandler(console_handler)
-
     return logger
 
 def cleanup_logger():

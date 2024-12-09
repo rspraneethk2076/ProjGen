@@ -5,7 +5,7 @@ import argparse
 import zipfile
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+from config import FILES_DIR, PROJECTS_DIR, ZIP_FILES_DIR, BASE_DIR
 from log_function import logger
 
 def split_text(text):
@@ -18,7 +18,7 @@ def split_text(text):
 
 def format_raw_file(filepath, project_name):
     logger.info(f"Formatting raw file: {filepath} for project: {project_name}")
-    root_dir = os.path.join("C:/Users/HP/Downloads/GenMaya3s/projects", project_name)
+    root_dir = os.path.join(BASE_DIR, 'projects', project_name)
     with open(filepath, 'r') as f:
         content = f.read()
     logger.debug("Raw file content loaded.")
@@ -105,16 +105,20 @@ def zip_folder(source_folder, destination_folder, zip_name):
 def main(project_name):
     logger.info(f"Starting main function for project: {project_name}")
     try:
-        format_raw_file(f"C:/Users/HP/Downloads/GenMaya3s/files/{project_name}_flask_app.txt", project_name)
-        shutil.copy("C:/Users/HP/Downloads/GenMaya3s/files/run_project.bat",
-                    os.path.join("C:/Users/HP/Downloads/GenMaya3s/projects", project_name))
+        # Use FILES_DIR and PROJECTS_DIR from config.py
+        raw_file_path = os.path.join(FILES_DIR, f"{project_name}_flask_app.txt")
+        project_directory = os.path.join(PROJECTS_DIR, project_name)
+        requirements_path = os.path.join(project_directory, "src", "requirements.txt")
+        zip_output_path = os.path.join(ZIP_FILES_DIR, f"{project_name}.zip")
+
+        format_raw_file(raw_file_path, project_name)
+        shutil.copy(os.path.join(FILES_DIR, "run_project.bat"), project_directory)
         logger.info(f"Copied run_project.bat to project directory.")
-        
-        merge_folders("C:/Users/HP/Downloads/GenMaya3s/projects")
-        renamefoldernames("C:/Users/HP/Downloads/GenMaya3s/projects")
-        clean_requirements(f"C:/Users/HP/Downloads/GenMaya3s/projects/{project_name}/src/requirements.txt")
-        zip_folder(f"C:/Users/HP/Downloads/GenMaya3s/projects/{project_name}",
-                   "C:/Users/HP/Downloads/GenMaya3s/zip_files", f"{project_name}.zip")
+
+        merge_folders(PROJECTS_DIR)
+        renamefoldernames(PROJECTS_DIR)
+        clean_requirements(requirements_path)
+        zip_folder(project_directory, ZIP_FILES_DIR, f"{project_name}.zip")
         logger.info("Main function completed successfully.")
     except Exception as e:
         logger.error(f"An error occurred in main: {e}")

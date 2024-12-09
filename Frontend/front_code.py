@@ -1,10 +1,12 @@
 import streamlit as st
+from pathlib import Path
 import requests
 import os
 import time
-
 import sys
 sys.path.append("C:/Users/HP/Downloads/GenMaya3s/Llama_RAG")
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config import FILES_DIR
 from vectors import EmbeddingsManager
 from chatbot import ChatbotManager  # Assuming you have chatbot.py for ChatbotManager
 
@@ -54,7 +56,7 @@ if "chatbot_manager" not in st.session_state:
     st.session_state['chatbot_manager'] = None
 if "messages" not in st.session_state:
     st.session_state['messages'] = []
-
+file_path = Path(FILES_DIR) / f'{st.session_state.project_title}_flask_app.txt'
 # Handle Submit button
 if st.button("Submit"):
     if project_title and (project_description or uploaded_pdf):
@@ -70,9 +72,10 @@ if st.button("Submit"):
         files = {"file": uploaded_pdf.getvalue()} if uploaded_pdf else None
 
         response = requests.post(url, json=payload, files=files)
-        file_created = raw_code(response, file_path=os.path.join("C:/Users/HP/Downloads/GenMaya3s/files", f'{st.session_state.project_title}_flask_app.txt'))
+        file_created = raw_code(response, file_path)
         
         if file_created:
+            st.switch_page("pages/Code_testor.py")  # Reload the page to reflect changes
             st.success("Project information submitted.")
             st.write("Go to the **Display Page** in the sidebar to view the details.")
         else:
@@ -114,10 +117,10 @@ if uploaded_pdf and st.button("Create Vector DB"):
             st.error(st.session_state.vector_db_status)
 
 # Chat with Document
-st.header("💬 Chat with Document")
+st.header(" Test the Document")
 
 if st.session_state['chatbot_manager'] is None:
-    st.info("🤖 Please upload a PDF and create embeddings to start chatting.")
+    st.info("Uploading Confluence/Document helps to customize your generation")
 else:
     # Display existing messages
     for msg in st.session_state['messages']:
