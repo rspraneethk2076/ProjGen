@@ -2,6 +2,9 @@
 
 Welcome to **GenMaya 3s**, a project designed to streamline code generation and testing workflows with ease. This README provides step-by-step instructions to set up, run, and use the project effectively.
 
+<img width="1269" alt="image" src="https://github.com/user-attachments/assets/20085b82-d418-453d-9ea0-48248d4144d3">
+
+
 ## Prerequisites
 
 - Ensure you have Python 3.13 installed on your system.
