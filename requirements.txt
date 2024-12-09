@@ -94,3 +94,7 @@ urllib3==2.2.3
 watchdog==5.0.3
 wcwidth==0.2.13
 yarl==1.16.0
+langchain-huggingface
+langchain-qdrant
+unstructured[pdf]
+onnx==1.16.1
