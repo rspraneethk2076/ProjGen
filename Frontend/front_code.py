@@ -7,8 +7,8 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from config import LLAMA_RAG_DIR, FILES_DIR
 sys.path.append(str(LLAMA_RAG_DIR))
-from vectors import EmbeddingsManager
-from chatbot import ChatbotManager  # Assuming you have chatbot.py for ChatbotManager
+from Llama_RAG.vectors import EmbeddingsManager  
+from Llama_RAG.chatbot import ChatbotManager 
 
 def raw_code(response, file_path):
     if response.status_code == 200:
