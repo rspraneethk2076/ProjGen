@@ -4,9 +4,9 @@ import requests
 import os
 import time
 import sys
-sys.path.append("C:/Users/HP/Downloads/GenMaya3s/Llama_RAG")
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from config import FILES_DIR
+from config import LLAMA_RAG_DIR, FILES_DIR
+sys.path.append(str(LLAMA_RAG_DIR))
 from vectors import EmbeddingsManager
 from chatbot import ChatbotManager  # Assuming you have chatbot.py for ChatbotManager
 
