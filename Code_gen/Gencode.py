@@ -122,7 +122,7 @@ The final Code:
 #src/app.py
 from flask import Flask, render_template, jsonify
 app = Flask(__name__,template_folder='C:/Users/HP/Downloads/GenMaya3s/projects/project1/templates')
-app.config['SECRET_KEY'] = 'a938397f9079d5a52a74310bd2606a7b96a8986661139196'
+app.config['SECRET_KEY'] = ''
 counter = 0
 
 import logging
