@@ -78,7 +78,7 @@ Both services must be running simultaneously.
 Port numbers are predefined in the code.
 
 ---
-
+![Screenshot 2025-09-28 094144](https://github.com/user-attachments/assets/9bc4d69b-4dcb-4189-9e54-5e58d53cfc77)
 ## 5. Setting Up Qdrant with Docker
 
 Run the following in your terminal:
@@ -89,7 +89,7 @@ docker run -p 6333:6333 -v .:/qdrant/storage qdrant/qdrant
 ```
 
 
-![Screenshot 2025-09-28 094144](https://github.com/user-attachments/assets/9bc4d69b-4dcb-4189-9e54-5e58d53cfc77)
+
 
 ---
 
