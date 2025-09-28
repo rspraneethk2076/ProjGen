@@ -1,104 +1,112 @@
-# GenMaya 3s
+# ProjGen Setup Guide
 
-Welcome to **GenMaya 3s**, a project designed to streamline code generation and testing workflows with ease. This README provides step-by-step instructions to set up, run, and use the project effectively.
-
-<img width="1269" alt="image" src="https://github.com/user-attachments/assets/20085b82-d418-453d-9ea0-48248d4144d3">
-
-
-## Prerequisites
-
-- Ensure you have Python 3.13 installed on your system.
-- A Python virtual environment is recommended for dependency isolation.
-- Install [Streamlit](https://streamlit.io/) in your Python environment.
+This guide provides clear steps to set up **ProjGen** with backend, frontend, and RAG integration using **Ollama** and **Qdrant**.
 
 ---
 
-## Getting Started
+## 1. Prerequisites
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/2000030859-saipraneeth/GenMaya3s.git
-cd GenMaya3s 
-```
-
-### 2. Checkout to Main Branch
-
-```bash
-git checkout main
-```
-
-### 3. Create a Python Virtual Environment
-```bash
-python -m venv env
-```
-
-### 4. Activate the Virtual Environment
-#### Windows:
-```bash
-.\env\Scripts\activate
-```
-#### MacOS/Linux:
-```bash
-source env/bin/activate
-```
-
-### 5. Install Dependencies
-```bash
-
-pip install -r requirements.txt
-```
-#### 6. Run the Frontend
-Navigate to the Frontend folder and start the Streamlit application:
-
-```bash
-cd Frontend
-streamlit run front_code.py
-```
-
-# Setting Up RAG Implementation
-
-This guide provides step-by-step instructions to set up the environment for implementing Retrieval-Augmented Generation (RAG) using Docker Desktop and Ollama.
+- **Ollama** (Download from [ollama.ai](https://ollama.ai/))  
+- **Docker Desktop** (Download from [docker.com](https://www.docker.com/products/docker-desktop/))  
+- **Python 3.12.7** installed on your system  
 
 ---
 
-## Prerequisites
+## 2. Running Ollama
 
-1. **Docker Desktop**  
-   Ensure Docker Desktop is installed and running on your system. You can download it [here](https://www.docker.com/products/docker-desktop/).
+1. Install and launch Ollama.  
+2. Pull and run the LLaMA model:  
 
-2. **Ollama**  
-   Install Ollama for managing LLaMA models on Windows. You can download Ollama [here](https://ollama.ai/).
-
----
-
-## Setting Up Qdrant with Docker
-
-1. Open Docker Desktop and ensure it is running.
-2. Run the following commands in your terminal or command prompt:
-
-### Pull the Qdrant Image
    ```bash
-   docker pull qdrant/qdrant
-   docker run -p 6333:6333 -v .:/qdrant/storage qdrant/qdrant
-```
+   ollama pull llama3.2:3b
+   ollama run llama3.2:3b
+   ```
 
-1. Setting Up LLaMA with Ollama
-2. Install Ollama on your Windows system.
+Ensure it runs correctly before continuing.
 
-Open Command Prompt and execute the following commands:
+---
 
-### Pull the LLaMA Model
+## 3. Clone Repository & Environment Setup
+
+1. Clone the repository and navigate into the folder:
+
+   ```bash
+   git clone https://github.com/rspraneethk2076/ProjGen.git
+   cd GenMaya3s
+   ```
+
+2. Create a Python virtual environment:
+
+   ```bash
+   python -m venv env
+   ```
+
+3. Activate the environment:  
+
+   - **Windows**:  
+     ```bash
+     .\env\Scripts\activate
+     ```  
+   - **MacOS/Linux**:  
+     ```bash
+     source env/bin/activate
+     ```  
+
+---
+
+## 4. Running Backend and Frontend
+
+1. Start backend service:
+
+   ```bash
+   cd GenMaya3s/Code_gen
+   python gencode.py
+   ```
+
+2. In another terminal (same environment), run frontend:
+
+   ```bash
+   cd GenMaya3s/Frontend
+   streamlit run front_code.py
+   ```
+
+Both services must be running simultaneously.  
+Port numbers are predefined in the code.
+
+---
+
+## 5. Setting Up Qdrant with Docker
+
+Run the following in your terminal:
+
 ```bash
-
-ollama pull llama3.2:3b
-ollama run llama3.2:3b
+docker pull qdrant/qdrant
+docker run -p 6333:6333 -v .:/qdrant/storage qdrant/qdrant
 ```
 
-#### Ready to Work with RAG
-Once the Qdrant container and the LLaMA model are running, you can start using the RAG workflow with your setup. Ensure both services (Qdrant and Ollama) are operational for seamless integration.
-Enjoy your RAG journey! 
 
+![Screenshot 2025-09-28 094144](https://github.com/user-attachments/assets/9bc4d69b-4dcb-4189-9e54-5e58d53cfc77)
 
+---
 
+## 6. Code Correction Service
 
+If code generation fails, start the **Code Corrector** service:
+
+```bash
+cd GenMaya3s/Code_correcter
+python code.py
+```
+
+When you click **Check Code** in the UI, corrections will be applied, and regenerated files will be produced.
+
+---
+
+## 7. Notes
+
+- If a file is not generated correctly in the first attempt, **re-run the request** or re-submit the project details.  
+- Ensure both **Qdrant** and **Ollama** are active before using RAG.  
+
+---
+
+✅ With this setup, you are ready to work with GenMaya3s and implement Retrieval-Augmented Generation (RAG).
