@@ -50,6 +50,10 @@ Ensure it runs correctly before continuing.
    - **MacOS/Linux**:  
      ```bash
      source env/bin/activate
+     ```
+4. Install the libraries:  
+     ```bash
+     pip install -r requirements.txt
      ```  
 
 ---
