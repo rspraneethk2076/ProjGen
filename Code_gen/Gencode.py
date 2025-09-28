@@ -13,7 +13,7 @@ from config import FILES_DIR, REMOVE_NOISE_PY, FORMAT_FOLDERS_PY, LOG_FILE_PATH,
 from log_function import logger
 
 
-subprocess.run(["python", "login_hf.py"])
+# subprocess.run(["python", "login_hf.py"])
 logger.debug("login_hf.py script executed")
 
 app = Flask(__name__)
@@ -190,15 +190,24 @@ pause
     '''
 )
 
-llm = HuggingFaceHub(
-    huggingfacehub_api_token="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",
-    repo_id="meta-llama/Llama-3.2-3B-Instruct",
-    model_kwargs={
-        "device": 0,
-        "max_new_tokens": 1000
-    }
+from langchain_community.llms import Ollama
+
+
+llm = Ollama(
+    model="llama3.2:3b",   # Change to the model you pulled with ollama pull
+    base_url="http://localhost:11434",  # Default Ollama server
+    temperature=0.7,
 )
-logger.info("HuggingFaceHub and LLMChain initialized")
+
+# llm = HuggingFaceHub(
+#     huggingfacehub_api_token="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",
+#     repo_id="meta-llama/Llama-3.2-3B-Instruct",
+#     model_kwargs={
+#         "device": 0,
+#         "max_new_tokens": 1000
+#     }
+# )
+# logger.info("HuggingFaceHub and LLMChain initialized")
 
 chain = LLMChain(llm=llm, prompt=prompt_template)
 
@@ -390,16 +399,15 @@ pause
     )
 
     # Define LLM and chain
-    llm = HuggingFaceHub(
-        huggingfacehub_api_token="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",
-        repo_id="meta-llama/Llama-3.2-3B-Instruct",
-        model_kwargs={
-            "device": 0,
-            "max_new_tokens": 1000
-        }
+    llm = Ollama(
+        model="llama3.2:3b",   # Change to the model you pulled with ollama pull
+        base_url="http://localhost:11434",  # Default Ollama server
+        temperature=0.7,
     )
 
+
     chain = LLMChain(llm=llm, prompt=prompt_template)
+    print("Chain created successfully in correct_error function")
     return chain
 
 # @app.route('/correct_code',methods=['POST'])
