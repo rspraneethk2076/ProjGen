@@ -9,7 +9,7 @@ import streamlit as st
 import argparse
 
 # Run login script
-subprocess.run(["python", "login_hf.py"])
+# subprocess.run(["python", "login_hf.py"])
 
 app = Flask(__name__)
 
@@ -70,16 +70,14 @@ def correct_error(error_details):
     Ensure the `src/app.py` file uses a main route `'/'`, has a `main` method, and handles user inputs as per the problem statement. Avoid complex code, keep the HTML minimal, and make sure the `requirements.txt` file includes necessary dependencies.
     '''
     )
+    from langchain_community.llms import Ollama
 
-    # Define LLM and chain
-    llm = HuggingFaceHub(
-        huggingfacehub_api_token="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",
-        repo_id="meta-llama/Llama-3.2-3B-Instruct",
-        model_kwargs={
-            "device": 0,
-            "max_new_tokens": 1000
-        }
+    llm = Ollama(
+        model="llama3.2:3b",   # Change to the model you pulled with ollama pull
+        base_url="http://localhost:11434",  # Default Ollama server
+        temperature=0.7,
     )
+
 
     chain = LLMChain(llm=llm, prompt=prompt_template)
     return chain
